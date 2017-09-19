@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<meta name="Copyright" content="js大联盟网 http://www.eyejs.com/" />
+<style type="text/css">
+  .cEyejs{border:solid 5px red; width:200px; height:200px}
+</style>
+<link rel="stylesheet" type="text/css" href="css.css">
+</head>
+
+<body>
+
+<div id="eyejs" class="cEyejs" style="border:solid 5px red;">
+</div>
+<input type="button" onclick="testRunTimeStyle()" value="设置runtimeStyle测试方法" />
+<input type="button" onclick="alert( $('eyejs').style.width )" value="获取style测试方法" />
+<input type="button" onclick="alert( getEyeJsStyle('eyejs','width') )" value="获取currentStyle测试方法一" />
+<input type="button" onclick='alert($("eyejs").currentStyle["width"])' value="获取currentStyle测试方法二" />
+
+<div>
+ 测试方案： 先点击"获取currentStyle测试方法一"的按钮，会弹出200px,再点击"设置runtimeStyle测试方法"的按钮,最后再点击"获取currentStyle测试方法一"的按钮，会弹出400px
+</div>
+
+<script type="text/javascript">
+ var $=function(id){return document.getElementById(id) };
+ 
+ /*
+  * @string id
+  * @string styleName 样式名
+  */
+ function getEyeJsStyle(id,styleName){
+    if($(id).currentStyle){//ie
+	   return $(id).currentStyle[styleName];
+	}else{ //ff
+	   var $arr=$(id).ownerDocument.defaultView.getComputedStyle($(id), null);
+	   return $arr[styleName];
+	}
+ }
+ //alert(getEyeJsStyle("eyejs","width") );
+ //方法二
+ //if(HTMLElement){
+    HTMLElement.prototype.__defineGetter__("currentStyle", function () {
+        return this.ownerDocument.defaultView.getComputedStyle(this, null);
+    });
+ //}
+  function testRunTimeStyle(){
+    $('eyejs').runtimeStyle.width='400px';
+	$('eyejs').style.width='100px';
+  }	
+</script>
+ <br>
+    <br>
+    ＊敬告：请尊重他人劳动，如转载自觉保留原始出处 <a href="http://www.eyejs.com/"  target="_blank">js大联盟网</a> ，并保留本站链接。
+  <p align="center"></p>
+  <p align="center"></p>
+  <p align="center"></p>
+  <p>&nbsp;  </p>
+</body>
+</html>
